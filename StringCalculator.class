@@ -1,0 +1,39 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class StringCalculator {
+
+    public int add(String numbers) {
+        if (numbers.isEmpty()) {
+            return 0;
+        }
+
+        String delimiter = ",|\n";
+        if (numbers.startsWith("//")) {
+            String[] parts = numbers.split("\n", 2);
+            delimiter = parts[0].substring(2);
+            numbers = parts[1];
+        }
+
+        String[] numArray = numbers.split(delimiter);
+        List<String> negatives = new ArrayList<>();
+        int sum = 0;
+
+        for (String num : numArray) {
+            if (!num.isEmpty()) {
+                int value = Integer.parseInt(num);
+                if (value < 0) {
+                    negatives.add(num);
+                } else {
+                    sum += value;
+                }
+            }
+        }
+
+        if (!negatives.isEmpty()) {
+            throw new IllegalArgumentException("Negative numbers not allowed: " + String.join(",", negatives));
+        }
+
+        return sum;
+    }
+}
